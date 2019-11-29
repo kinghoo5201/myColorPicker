@@ -17,7 +17,13 @@
     </style>
   </head>
   <body>
-    <div id="result"></div>
+    <div id="result">
+      <script>
+        document.write(
+          `<canvas id="canvas" width="${window.innerWidth}px" height="${window.innerHeight}px"></canvas>`
+        );
+      </script>
+    </div>
     <script>
       require("./color-picker.js");
     </script>

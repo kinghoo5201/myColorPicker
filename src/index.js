@@ -15,9 +15,10 @@ app.on("ready", () => {
     width: 300,
     height: 200
   });
+  let pickerWindow = null;
   mainWindow.loadFile(path.resolve(__dirname, "./view/index.html"));
   function showMain() {
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
     mainWindow.show();
   }
   function hideMain() {
@@ -33,10 +34,19 @@ app.on("ready", () => {
   ipcMain.on("show-main", () => {
     showMain();
   });
+  ipcMain.on("color-reciever", (event, color) => {
+    if (pickerWindow) {
+      isShow = false;
+      pickerWindow.close();
+      pickerWindow = null;
+      showMain();
+      mainWindow.webContents.send("send-color", color);
+    }
+  });
   ipcMain.on("start-get-color", (event, dataUrl) => {
     if (!isShow) {
       isShow = true;
-      const pickerWindow = new BrowserWindow({
+      pickerWindow = new BrowserWindow({
         frame: false,
         webPreferences: {
           nodeIntegration: true
@@ -47,8 +57,10 @@ app.on("ready", () => {
         show: false,
         resizable: false,
         movable: false,
-        fullscreen: true
+        fullscreen: true,
+        alwaysOnTop: true
       });
+
       pickerWindow.loadFile(
         path.resolve(__dirname, "./view/color-picker.html")
       );
