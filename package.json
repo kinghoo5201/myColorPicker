@@ -1,0 +1,22 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon",
+    "dev": "(rd /s /q dist || rm -rf ./dist || npm run rn) && npm run rn",
+    "rn": "set NODE_ENV=development && tsc && electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "devtron": "^1.4.0",
+    "electron": "^7.1.2",
+    "lodash": "^4.17.15",
+    "nodemon": "^2.0.1",
+    "typescript": "^3.7.2"
+  }
+}
