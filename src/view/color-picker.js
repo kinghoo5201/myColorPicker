@@ -7,6 +7,7 @@ class MouseController {
     this.clickFn = clickFn;
     this.moverWidth = 150;
     this.moverHeight = 150;
+    this.zoom = 4;
     this.registHandler();
   }
 
@@ -26,8 +27,10 @@ class MouseController {
   moveHandler = e => {
     this.mover.style.left = e.clientX - this.moverWidth / 2 + "px";
     this.mover.style.top = e.clientY - this.moverHeight / 2 + "px";
-    this.mover.style.backgroundPosition = `-${e.clientX -
-      this.moverWidth / 2}px -${e.clientY - this.moverHeight / 2}px`;
+
+    this.mover.style.backgroundPosition = `-${this.zoom * e.clientX -
+      this.moverWidth / 2}px -${this.zoom * e.clientY -
+      this.moverHeight / 2}px`;
   };
 
   renderMover = () => {
@@ -46,9 +49,24 @@ class MouseController {
             border-radius:50%;
             background-image:url(${this.imgUrl});
             box-shadow:0 0 4px rgba(0,0,0,.6);
+            background-size:${screen.width * this.zoom}px ${screen.height *
+        this.zoom}px;
+        }
+        #mouse-mover span{
+          display:block;
+          width:${this.zoom + 2}px;
+          height:${this.zoom + 2}px;
+          position:absolute;
+          top:50%;
+          left:50%;
+          margin-left:-${(this.zoom + 2) / 2}px;
+          margin-top:-${(this.zoom + 2) / 2}px;
+          border:1px solid #ccc;
         }
         `;
       this.mover = document.createElement("div");
+      const inner = document.createElement("span");
+      this.mover.appendChild(inner);
       this.mover.id = "mouse-mover";
       document.querySelector("body").appendChild(this.style);
       document.querySelector("body").appendChild(this.mover);
